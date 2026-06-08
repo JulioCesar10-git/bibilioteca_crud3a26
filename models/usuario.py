@@ -1,0 +1,19 @@
+class Usuario:
+
+    # Constructor
+    def __init__(self, id_usuario, nombre, email, carrera):
+        self.id_usuario = id_usuario
+        self.nombre = nombre
+        self.email = email
+        self.carrera = carrera
+        self.activo = True # Por defecto, el usuario esta activo
+
+        def activar(self):
+            self.activo = True
+
+        def desactivar(self):
+            self.activo = False
+
+        def mostrar_info(self):
+            return f"Usuario ID: {self.id_usuario}, Nombre: {self.nombre}, Email: {self.email}, Carrera: {self.carrera}, Activo: {'Si' if self.activo else 'No'}"    
+        
