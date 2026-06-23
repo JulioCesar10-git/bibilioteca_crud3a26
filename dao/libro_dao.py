@@ -7,7 +7,7 @@ from models.libro import Libro
 
 class LibroDAO: 
 
-    # SELCT * FROM libro
+    # SELECT * FROM libro
     def obtener_todos(self):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
@@ -36,7 +36,7 @@ class LibroDAO:
         """
 
         cursor.execute(
-            sql, (libro.titulo, libro.autor, libro.isbn, libro.disponible) 
+            sql, (libro.id, libro.titulo, libro.autor, libro.isbn, libro.disponible) 
         )
 
         conexion.commit()
@@ -63,7 +63,7 @@ class LibroDAO:
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
 
-        cursor.execute("DELETE FROM libro WHERE id = %s", (libro_id)) 
+        cursor.execute("DELETE FROM libro WHERE id = %s", (libro_id,)) 
 
         conexion.commit()
         cursor.close()

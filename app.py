@@ -16,7 +16,7 @@ def ver_libros():
                 print("__________________________________________________________________") 
                 print(
                     f"ID: {libro.id}, Titulo: {libro.titulo}, "
-                    f"Autor:s {libro.autor}, ISBN: {libro.isbn}, " 
+                    f"Autor: {libro.autor}, ISBN: {libro.isbn}, " 
                     f"Disponible: {'Si' if libro.disponible else 'No'}"
                 )
                 print("__________________________________________________________________") 
@@ -35,6 +35,7 @@ def insertar_libro():
     try:
         libro_dao = LibroDAO()
         id = libro_dao.obtener_ultimo_id() + 1 
+
         libro = Libro(id, titulo, autor, isbn, disponible)
         libro_dao.insertar(libro)
         print("Insercion realizada con exito")
@@ -43,7 +44,37 @@ def insertar_libro():
         print("Error al insertar un nuevo libro")
         print(e)
 
-        
+
+def actualizar_libro():
+    try:
+        libro_dao =LibroDAO()  
+        print("Lista de libros disponibles")  
+        ver_libros() 
+        id = int(input("Seleccione el id de el libro a actualizar"))   
+        titulo = input("Escribe el titulo: ")
+        autor = int(input("Escribe el id del autor: "))
+        isbn = input("Escribe el isbn: ")
+        disponible = bool(input("Escribe si esta disponible: "))
+        libro = Libro(id, titulo, autor, isbn, disponible)
+        libro_dao.actualizar(libro)
+        print("El libro fue actualizado con exito")
+    except Exception as e:
+        print("Error al actualizar el libro")    
+        print(e)
+
+
+def eliminar_libro():
+   
+    try:
+        Libro_dao = LibroDAO()
+        print("Lista de libros disponibles")
+        ver_libros()
+        id = int(input("Escriba el id de el libro a eliminar: "))
+        Libro_dao.eliminar(id)
+        print(f"El libro {id} ha sido eliminado con exito")
+    except Exception as e:
+        print(f"Error al eliminar el libro {id}")   
+        print(e)     
 
 def main():
 
@@ -59,6 +90,10 @@ def main():
             ver_libros()
         case 2:
             insertar_libro()
+        case 3:
+            actualizar_libro()
+        case 4:
+            eliminar_libro()        
             
 if __name__ == "__main__":
     main()
