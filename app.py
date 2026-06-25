@@ -61,15 +61,14 @@ def actualizar_libro():
 
 
 def eliminar_libro():
-   
     try:
-        Libro_dao = LibroDAO()
+        libro_dao = LibroDAO()
         
         print("Lista de libros disponibles")
         ver_libros()
 
         id = int(input("Escriba el id de el libro a eliminar: "))
-        Libro_dao.eliminar(id)
+        libro_dao.eliminar(id)
 
         print(f"El libro {id} ha sido eliminado con exito")
 
