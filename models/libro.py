@@ -1,7 +1,7 @@
 class Libro:
 
     # Constructor
-    def __init__(self, id, titulo, autor, isbn, disponible,):
+    def __init__(self, id, titulo, autor, isbn, disponible):
         self.id = id
         self.titulo = titulo
         self.autor = autor

@@ -8,7 +8,7 @@ from models.libro import Libro
 class LibroDAO: 
 
     # SELECT * FROM libro
-    def obtener_todos(self):
+    def obtener_todo(self):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
 

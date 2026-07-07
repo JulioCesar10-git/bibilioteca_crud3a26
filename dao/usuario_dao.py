@@ -1,21 +1,26 @@
 from database import conexion
 from database.conexion import Conexion
-from models.usuario import usuario
+from models.usuario import Usuario
 
-class usuarioDAO: 
+class UsuarioDAO: 
 
     # SELECT * FROM Usuario
-    def obtener_todos(self):
+    def obtener_todo(self):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
 
-        cursor.execute("SELECT * FROM vista_usuario")
+        cursor.execute("SELECT * FROM usuario")
         registros = cursor.fetchall()
 
         usuarios = []
         for registro in registros:
-            usuario = usuario(id = registro[0], nombre = registro[1], matricula = registro[2], carrera = registro[3], correo = registro[4], activo = registro[5])
-            usuario.append(usuario)
+            usuario = Usuario(id = registro[0],
+                            nombre = registro[1], 
+                            matriucla = registro[2], 
+                            carrera = registro[3], 
+                            correo = registro[4], 
+                            activo = registro[5])
+            usuarios.append(usuario)
             
         cursor.close()
         conexion.close()
@@ -27,13 +32,13 @@ class usuarioDAO:
 
         sql = """
 
-            INSERT INTO usuario (id, nombre, matricula, carrera, correo, activo)
+            INSERT INTO usuario (nombre, matriucla, carrera, correo, activo)
             VALUES (%s, %s, %s, %s, %s)
 
         """
 
         cursor.execute(
-            sql, (usuario.id, usuario.nombre, usuario.matricula, usuario.carrera, usuario.correo, usuario.activo) 
+            sql, (usuario.nombre, usuario.matriucla, usuario.carrera, usuario.correo, usuario.activo) 
         )
 
         conexion.commit()
@@ -46,23 +51,23 @@ class usuarioDAO:
 
         sql = """
 
-            UPDATE usuario SET nombre = %s, matricula = %s, carrera = %s, correo = %s, activo = %s, WHERE id = %
+            UPDATE usuario SET nombre = %s, matriucla = %s, carrera = %s, correo = %s, activo = %s WHERE id = %s
             
         """        
 
         cursor.execute(
-            sql, (usuario.titulo, usuario.autor, usuario.isbn, usuario.disponible, usuario.id)
+            sql, (usuario.nombre, usuario.matriucla, usuario.carrera, usuario.correo, usuario.activo, usuario.id)
         )
 
         conexion.commit()
         cursor.close()
         conexion.close()
 
-    def eliminar(self, usuario_id):
+    def eliminar(self, id):
         conexion = Conexion.obtener_conexion()
         cursor = conexion.cursor()
 
-        cursor.execute("DELETE FROM usuarios WHERE id = %s", (usuario_id,)) 
+        cursor.execute("DELETE FROM usuario WHERE id = %s", (id,)) 
 
         conexion.commit()
         cursor.close()

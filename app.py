@@ -1,10 +1,12 @@
 from dao.libro_dao import LibroDAO
 from models.libro import Libro
+from dao.usuario_dao import UsuarioDAO
+from models.usuario import Usuario 
 
 def ver_libros():
     try:
         libro_dao = LibroDAO()
-        libros = libro_dao.obtener_todos()
+        libros = libro_dao.obtener_todo()
 
         if len(libros) == 0:
             print("No hay libros registrados")
@@ -74,7 +76,85 @@ def eliminar_libro():
 
     except Exception as e:
         print(f"Error al eliminar el libro {id}")   
-        print(e)     
+        print(e)         
+
+def ver_usuarios():
+    try:
+        usuario_dao = UsuarioDAO()
+        usuarios = usuario_dao.obtener_todo()
+
+        if len(usuarios) == 0:
+            print("No hay usuarios registrados")
+        else:
+            for usuario in usuarios:
+                print("===============================================================================================================")
+                print(f"id: {usuario.id}, {usuario.nombre}, {usuario.matriucla}, {usuario.carrera}, {usuario.correo}, {usuario.activo}")
+                print("===============================================================================================================")
+
+            print(f"\nConexion exitosa con la base de datos")
+
+    except Exception as e:
+        print("Error")            
+        print(e)
+
+def insertar_usuario():
+    nombre = input("Escribe un nuevo usuario: ")
+    matriucla = input("Escribe la matricula: ")
+    carrera = int(input("Escribe la carrera: "))
+    correo = input("Escribe el correo: ")
+    activo = True
+
+    try:
+        usuario_dao = UsuarioDAO()
+        id = usuario_dao.obtener_ultimo_id() + 1 
+
+        nuevo_usuario = Usuario(id, nombre, matriucla, carrera, correo, activo)
+        usuario_dao.insertar(nuevo_usuario)
+        print("Insercion realizada con exito")
+
+    except Exception as e:
+        print("Error al insertar un nuevo usuario")
+        print(e)
+
+def actualizar_usuario():
+    try:
+        usuario_dao = UsuarioDAO()  
+
+        print("Lista de usuarios activos")  
+        ver_usuarios() 
+
+        id = int(input("Seleccione el id de el usuario a actualizar: "))   
+        nombre = input("Escribe el nombre: ")
+        matriucla = input("Escribe la matricula: ")
+        carrera = input("Escribe la carrera: ")
+        correo = input("Escribe el correo: ")
+        activo = True
+        usuario = Usuario(id, nombre, matriucla, carrera, correo, activo)
+
+        usuario_dao.actualizar(usuario)
+        print(f"El usuario {id} fue actualizado con exito")
+
+    except Exception as e:
+        print("Error al actualizar el usuario")    
+        print(e)
+   
+
+def eliminar_usuario():
+   
+    try:
+        usuario_dao = UsuarioDAO()
+        
+        print("Lista de usuarios activos")
+        ver_usuarios()
+
+        id = int(input("Escriba el id de el usuario a eliminar: "))
+        usuario_dao.eliminar(id)
+
+        print(f"El usuario {id} ha sido eliminado con exito")
+
+    except Exception as e:
+        print(f"Error al eliminar el usuario {id}")   
+        print(e)
 
 def menu_libros():
     print("1. Ver todos los libros")
@@ -91,101 +171,11 @@ def menu_libros():
         case 3:
             actualizar_libro()
         case 4:
-            eliminar_libro()     
-
-
-def ver_usuarios():
-    try:
-        usuario_dao = usuarioDAO()
-        usuarios = usuario_dao.obtener_todo()
-
-        if len(usuarios) == 0:
-            print("No hay usuarios registrados")
-        else:
-            for usuario in usuarios:
-                print(f"id: {usuario.id} {usuario.nombre} {usuario.matricula} {usuario.carrera} {usuario.correo} {usuario.activo}")
-                print(f"\n Conexion exitosa con la base de datos")
-
-    except Exception as e:
-        print("Error")            
-        print(e)
-    try:
-        usuario_dao = LibroDAO()
-        usuarios = usuario_dao.obtener_todo()
-
-        if len(usuarios) == 0:
-            print("No hay usuarios registrados")
-        else:
-            for libro in usuarios:
-                print(f"id: {usuario.id} {usuario.nombre} {usuario.matricula} {usuario.carrera} {usuario.correo} {usuario.activo}")
-                print(f"\n Conexion exitosa con la base de datos")
-
-    except Exception as e:
-        print("Error")            
-        print(e)         
-
-def insertar_usuario():
-    nombre = input("Escribe un nuevo usuario: ")
-    matricula = int(input("Escribe la matricula: "))
-    carrera = input("Escribe la carrera: ")
-    correo = input("Escribe el correo: ")
-    activo = True
-
-    try:
-        usuario_dao = usuarioDAO()
-        id = usuario_dao.obtener_ultimo_id() + 1 
-
-        usuario = usuario(id, nombre, matricula, carrera, correo, activo)
-        usuario_dao.insertar(usuario)
-        print("Insercion realizada con exito")
-
-    except Exception as e:
-        print("Error al insertar un nuevo usuario")
-        print(e)
-
-def actualizar_usuario():
-    try:
-        usuario_dao = usuarioDAO()  
-
-        print("Lista de usuarios activos")  
-        ver_usuarios() 
-
-        id = int(input("Seleccione el id de el usuario a actualizar"))   
-        nombre = input("Escribe el nombre: ")
-        matricula = int(input("Escribe la matricula: "))
-        carrera = input("Escribe la carrera: ")
-        correo = input("Escribe el correo: ")
-        disponible = bool(input("Escribe si esta activo: "))
-        usuario = usuario(id, nombre, matricula, carrera, correo, disponible)
-
-        usuario_dao.actualizar(usuario)
-        print(f"El usuario {id} fue actualizado con exito")
-
-    except Exception as e:
-        print("Error al actualizar el usuario")    
-        print(e)
-   
-
-def eliminar_usuario():
-   
-    try:
-        usuario_dao = usuarioDAO()
-        
-        print("Lista de usuarios activos")
-        ver_usuarios()
-
-        id = int(input("Escriba el id de el usuario a eliminar: "))
-        usuario_dao.eliminar(id)
-
-        print(f"El usuario {id} ha sido eliminado con exito")
-
-    except Exception as e:
-        print(f"Error al eliminar el usuario {id}")   
-        print(e)
+            eliminar_libro()         
 
 def menu_usuarios():
-    print("1.Ver todos los usuarios")
-    print("2.Insertar un nuevo usuario")
+    print("1. Ver todos los usuarios")
+    print("2. Insertar un nuevo usuario")
     print("3. Actualizar un usuario existente")
     print("4. Eliminar un usuario existente")
     opcion = int(input("Selecciona un opcion (1-4): "))
@@ -208,7 +198,7 @@ def main():
     opcion = int(input("Escribe tu opcion: "))
     match opcion:
         case 1: menu_libros()
-        case 2: menu_usuarios()
+        case 2: menu_usuarios() 
 
     print("Saliendo del sistema de Biblioteca universitaria ... ")    
             
