@@ -1,5 +1,7 @@
 import flet as ft
 
+from ui.libro_from import libro_from
+
 def main_window(page: ft.Page):
     page.title = "Sistema de biblioteca Universitaria"
     page.window_width = 1100
@@ -34,6 +36,11 @@ def main_window(page: ft.Page):
         expand = True
     )
 
+    # Reacciona al click del boton de libros en el menú lateral
+    def insertar_libros(e):
+        contenido.content = libro_from()
+        page.update()
+
     #
     menu_lateral = ft.Container(
         width = 220,
@@ -57,6 +64,7 @@ def main_window(page: ft.Page):
                     "Libros",
                     icon = ft.Icons.BOOK,
                     width = 180,
+                    on_click = insertar_libros
                 ),
                 ft.ElevatedButton(
                     "Usuarios",
